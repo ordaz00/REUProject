@@ -28,17 +28,19 @@ def getFractions(stats)->dict:
     fractions = {}
     for author in stats:
         if (stats[author][1] + stats[author][2]) > 0:
-            fraction = (stats[author][1])/(stats[author][1] + stats[author][2])
+            fraction = round((stats[author][1])/(stats[author][1] + stats[author][2]), 2)
             if fraction in fractions:
                 fractions[fraction] += 1
             else:
                 fractions[fraction] = 1
-    return fraction
+    return fractions
 
 def makeATxtFile(name, stats)->None:
     file = open(name, "w")
+    colnames = "num1,num2\n"
+    file.write(colnames)
     for item in stats:
-        line = str(item) + "," + str(stats[item])
+        line = str(item) + "," + str(stats[item]) + "\n"
         file.write(line)
     file.close()
 
@@ -47,11 +49,12 @@ def main()->None:
     names = ["Ruby_On_Rails", "Lucene", "TensorFlow", "Pytorch"]
     for i in range(len(links)):
         link = links[i]
+        print(link)
         title = names[i]
         stats = getStats(link)
         commitStats = getCommitStats(stats)
         fractions = getFractions(stats)
-        makeATxtFile(title + "_Commit_Stats.txt", commitStats)
-        makeATxtFile(title + "_Fraction_Stats.txt", fractions)
+        makeATxtFile(title + "_Commit_Stats.csv", commitStats)
+        makeATxtFile(title + "_Fraction_Stats.csv", fractions)
 
 main()
