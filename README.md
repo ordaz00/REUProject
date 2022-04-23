@@ -1,2 +1,2 @@
 # REUProject
-Repo to hold my work for my REU project
+A project using pydriller to mine information from github.
